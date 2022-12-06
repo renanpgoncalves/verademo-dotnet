@@ -1,17 +1,1 @@
-name: NuGet Restore
-on: [push, pull_request]
-jobs:
-  build:
-    runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-        os: [windows-latest, ubuntu-latest, macOS-latest]
-        nuget: [latest, preview, 4.x, 5.3.1]
-    name: NuGet@${{ matrix.nuget }} sample
-    steps:
-      - uses: actions/checkout@master
-      - name: Setup NuGet.exe
-        uses: nuget/setup-nuget@v1
-        with:
-          nuget-version: ${{ matrix.nuget }}
-      - run: nuget restore Verademo-dotnet.sln
+$ gh extension install github/gh-actions-importer
