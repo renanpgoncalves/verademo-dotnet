@@ -44,7 +44,7 @@ jobs:
               
     - uses: actions/upload-artifact@v2 
       with:
-        path: ./veracode.zip
+        path: ./Verademo-dotnet.zip
     - uses: veracode/veracode-uploadandscan-action@master 
       with:
         vid: '${{ secrets.VID }}'
