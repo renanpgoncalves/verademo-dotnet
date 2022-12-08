@@ -39,7 +39,7 @@ jobs:
       uses: actions/setup-go@v3
       with:
         filename: 'Verademo-dotnet.zip'
-        path: ./Verademo-dotnet.zip
+        path: ${{ github.workspace }}\Verademo-dotnet.zip
   
               
     - uses: actions/upload-artifact@v2 
@@ -52,7 +52,7 @@ jobs:
         criticality: 'Medium'
         appname: 'Lab-Verademo-DotNet'
         createprofile: 'true'
-        filepath: Verademo-dotnet.zip
+        filepath: ${{ github.workspace }}\Verademo-dotnet.zip
         deleteIncompleteScan: 'true'
         version: ${{ github.run_id }}'
         scantimeout: 30    
