@@ -21,11 +21,42 @@ jobs:
       run: |
         curl -sSO https://downloads.veracode.com/securityscan/pipeline-scan-LATEST.zip
         unzip -o pipeline-scan-LATEST.zip
-        java -jar pipeline-scan.jar -vid ${{ env.VERACODE_API_ID }} -vkey ${{ env.VERACODE_API_KEY }} -f ${{ github.workspace }}\Verademo-dotnet.zip || true
+        java -jar pipeline-scan.jar -vid ${{ env.VID }} -vkey ${{ env.VKEY }} -f ${{ github.workspace }}\Verademo-dotnet.zip || true
       shell: cmd
     - name: Create Build Artifact for Veracode Static Pipeline Scanner Results
       uses: actions/upload-artifact@v2
       with:
         path: results.json
         name: Build
+        
+
+  Veracode-SAST-Policy-Scan:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - name: Archive Release
+      uses: actions/setup-go@v3
+      with:
+        filename: 'veracode.zip'
+        path: ./veracode.zip
+  
+              
+    - uses: actions/upload-artifact@v2 
+      with:
+        path: ./veracode.zip
+    - uses: veracode/veracode-uploadandscan-action@master 
+      with:
+        vid: '${{ secrets.VID }}'
+        vkey: '${{ secrets.VKEY }}'
+        criticality: 'Medium'
+        appname: 'Lab-Verademo-DotNet'
+        createprofile: 'true'
+        filepath: ./Verademo-dotnet.zip
+        deleteIncompleteScan: 'true'
+        version: ${{ github.run_id }}'
+        scantimeout: 30    
+    
+    
+    
                     
