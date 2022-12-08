@@ -9,7 +9,6 @@ jobs:
     - name: NuGet restore
       run: nuget restore
 
-jobs:
   MsBuild:
     runs-on: ubuntu-latest
     steps:
