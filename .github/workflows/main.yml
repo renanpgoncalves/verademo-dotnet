@@ -38,8 +38,8 @@ jobs:
     - name: Archive Release
       uses: actions/setup-go@v3
       with:
-        filename: 'veracode.zip'
-        path: ./veracode.zip
+        filename: 'Verademo-dotnet.zip'
+        path: ./Verademo-dotnet.zip
   
               
     - uses: actions/upload-artifact@v2 
