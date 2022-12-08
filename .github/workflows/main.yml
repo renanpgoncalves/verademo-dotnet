@@ -5,7 +5,7 @@ on:
     - main
   workflow_dispatch:
 env:
-  solution: '**/*.sln'
+  solution: '**/Verademo-dotnet.sln'
   buildPlatform: Any CPU
   buildConfiguration: Release
 jobs:
