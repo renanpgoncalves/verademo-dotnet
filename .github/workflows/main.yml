@@ -52,7 +52,7 @@ jobs:
         criticality: 'Medium'
         appname: 'Lab-Verademo-DotNet'
         createprofile: 'true'
-        filepath: ./Verademo-dotnet.zip
+        filepath: Verademo-dotnet.zip
         deleteIncompleteScan: 'true'
         version: ${{ github.run_id }}'
         scantimeout: 30    
