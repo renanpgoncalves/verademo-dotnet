@@ -2,17 +2,12 @@ name: Dotnet
 on: [push]
 
 jobs:
-  NugetRestore:
+  Build:
     runs-on: windows-latest
     steps:
     - uses: actions/checkout@v2
     - name: NuGet restore
-      run: nuget restore
-
-  MsBuild:
-    needs: NugetRestore
-    runs-on: windows-latest
-    steps:
+      run: nuget restore Verademo-dotnet.sln
     - uses: actions/checkout@v2
     - uses: microsoft/setup-msbuild@v1.0.2
     - name: Build solution **\*.sln
