@@ -1,15 +1,31 @@
 name: Dotnet
-on: [push]
-
+on:
+  push:
+    branches:
+    - main
+  workflow_dispatch:
+env:
+  solution: '**/*.sln'
+  buildPlatform: Any CPU
+  buildConfiguration: Release
 jobs:
-  Build:
+  build:
     runs-on: windows-latest
     steps:
     - uses: actions/checkout@v2
-    - name: NuGet restore
-      run: nuget restore Verademo-dotnet.sln
-    - uses: actions/checkout@v2
     - uses: microsoft/setup-msbuild@v1.0.2
-    - name: Build solution **\*.sln
-      run: msbuild '' /p:OutputPath=${{ github.workspace }}\bin /p:DeployOnBuild=true /p:WebPublishMethod=FileSystem  /p:PrecompileBeforePublish=true /p:EnableUpdateable=false /p:DebugSymbols=true  /p:UseMerge=false /p:DeleteAppCodeCompiledFiles=True /p:DeleteExistingFiles=True  /p:WDPMergeOption=CreateSeparateAssembly /p:UseFixedNames=true
-
+    - uses: nuget/setup-nuget@v1
+    - run: nuget restore ${{ env.solution }}
+    - run: msbuild '${{ env.solution }}' /p:configuration='${{ env.buildConfiguration }}' /p:platform='${{ env.buildPlatform }}' /p:DeployOnBuild=true /p:WebPublishMethod=Package /p:PackageAsSingleFile=true /p:SkipInvalidConfigurations=true /p:PackageLocation="${{ github.workspace }}"
+    - name: Veracode Static Pipeline Scanner
+      run: |
+        curl -sSO https://downloads.veracode.com/securityscan/pipeline-scan-LATEST.zip
+        unzip -o pipeline-scan-LATEST.zip
+        java -jar pipeline-scan.jar -vid ${{ env.VERACODE_API_ID }} -vkey ${{ env.VERACODE_API_KEY }} -f ${{ github.workspace }}\Verademo-dotnet.zip || true
+      shell: cmd
+    - name: Create Build Artifact for Veracode Static Pipeline Scanner Results
+      uses: actions/upload-artifact@v2
+      with:
+        path: results.json
+        name: Build
+                    
