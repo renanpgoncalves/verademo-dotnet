@@ -1,1 +1,9 @@
-$ gh extension install github/gh-actions-importer
+jobs:
+  build:
+    steps:
+    - uses: actions/checkout@v2
+    - name: NuGet restore
+      run: nuget restore
+                    
+
+
