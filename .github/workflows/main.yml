@@ -1,16 +1,16 @@
 name: Dotnet
 on: [push]
 
-Nuget_Restore:
-  build:
+jobs:
+  NugetRestore:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
     - name: NuGet restore
       run: nuget restore
 
-jobs:
-  build:
+NugetRestore:
+    runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
     - uses: microsoft/setup-msbuild@v1.0.2
