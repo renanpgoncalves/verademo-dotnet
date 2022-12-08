@@ -9,7 +9,8 @@ jobs:
     - name: NuGet restore
       run: nuget restore
 
-NugetRestore:
+jobs:
+  MsBuild:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
